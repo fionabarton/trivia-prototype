@@ -17,6 +17,11 @@ public class QuestionManager : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         questions.Add(
+            new Question("Which of the following companies\ngenerates the most plastic pollution?",
+            new List<string> { "Coca-Cola", "PepsiCo", "Nestlé ", "Unilever" },
+            eTopic.plasticPollution, 0));
+
+        questions.Add(
             new Question("What colour is the sky?",
             new List<string> { "Dog", "Apple", "Dragon Ball", "Blue" },
             eTopic.other, 3));
