@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour {
         }
 
         // Set selected game object to first answer button
-        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(answers[0].gameObject);
+        //UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(answers[0].gameObject);
     }
 
     // Called when an answer button is selected by the user
