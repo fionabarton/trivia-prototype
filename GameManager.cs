@@ -40,6 +40,11 @@ public class GameManager : MonoBehaviour {
             answerTexts[i].text = q.answerStrings[i];
         }
 
+        // Activate all the answer buttons
+        for (int i = 0; i < answerButtons.Count; i++) {
+            answerButtons[i].gameObject.SetActive(true);
+        }
+
         // Remove listeners from all answer buttons
         for (int i = 0; i < answerButtons.Count; i++) {
             answerButtons[i].onClick.RemoveAllListeners();
@@ -60,9 +65,6 @@ public class GameManager : MonoBehaviour {
         for (int i = 0; i < answerButtons.Count; i++) {
             answerButtons[i].interactable = true;
         }
-
-        // Set selected game object to first answer button
-        //UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(answers[0].gameObject);
     }
 
     // Called when an answer button is selected by the user
@@ -70,15 +72,17 @@ public class GameManager : MonoBehaviour {
         // Set question text
         questionText.text = messageToDisplay;
 
-        // Deactivate the interactability of the answer buttons
-        for (int i = 0; i < answerButtons.Count; i++) {
-            answerButtons[i].interactable = false;
+        // Deactivate all but the first answer button
+        for (int i = 1; i < answerButtons.Count; i++) {
+            answerButtons[i].gameObject.SetActive(false);
         }
+
+        // Set first answer button to be "Next question" button
+        answerButtons[0].onClick.RemoveAllListeners();
+        answerTexts[0].text = "Next question";
+        answerButtons[0].onClick.AddListener(SetQuestions);
 
         // Increment currentNdx to display next question
         currentNdx = (currentNdx + 1) % QuestionManager.S.questions.Count;
-
-        // Call SetQuestions() in approximately 2 seconds
-        Invoke("SetQuestions", 2);
     }
 }
