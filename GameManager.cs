@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour {
         Question q = QuestionManager.S.questions[currentNdx];
 
         // Set question text
-        questionText.text = q.questionString;
+        questionText.text = "Question " + (currentNdx + 1) + "\n" + q.questionString;
 
         // Set answers text
         for (int i = 0; i < answers.Count; i++) {
@@ -69,8 +69,8 @@ public class GameManager : MonoBehaviour {
 
     // Called when an answer button is selected by the user
     void AnswerSelected(string messageToDisplay) {
-        // Set question text
-        questionText.text = messageToDisplay;
+        // Display feedback and info about the question/answer
+        questionText.text = messageToDisplay + "\n" + QuestionManager.S.questions[currentNdx].feedback;
 
         // Deactivate all but the first answer button
         for (int i = 1; i < answerButtons.Count; i++) {
