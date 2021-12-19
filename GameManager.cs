@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour {
     public List<GameObject> answers;
 
     [Header("Set Dynamically")]
-    // Index of the question currently displayed
+    // Index of the question currently being asked
     public int              currentNdx = 0;
 
     public List<Text>       answerTexts;
@@ -23,11 +23,11 @@ public class GameManager : MonoBehaviour {
             answerButtons[i] = answers[i].GetComponent<Button>();
         }
 
-        // Set up first question/answers
+        // Set up and display first question/answers
         SetQuestions();
     }
 
-    // Set up current question/answers
+    // Set up and display current question/answers
     void SetQuestions() {
         // Get data for current question
         Question q = QuestionManager.S.questions[currentNdx];
@@ -40,30 +40,25 @@ public class GameManager : MonoBehaviour {
             answerTexts[i].text = q.answerStrings[i];
         }
 
-        // Activate all the answer buttons
-        for (int i = 0; i < answerButtons.Count; i++) {
-            answerButtons[i].gameObject.SetActive(true);
-        }
-
         // Remove listeners from all answer buttons
         for (int i = 0; i < answerButtons.Count; i++) {
             answerButtons[i].onClick.RemoveAllListeners();
         }
 
+        // Activate all the answer buttons
+        for (int i = 0; i < answerButtons.Count; i++) {
+            answerButtons[i].gameObject.SetActive(true);
+        }
+
         // Set OnClick methods
         for (int i = 0; i < answers.Count; i++) {
             if(i == q.correctAnswerNdx) {
-                // If user has selected correct answer...
+                // If user has selected correct answer, call ...
                 answerButtons[i].onClick.AddListener(delegate { AnswerSelected("<color=green>" + "Correct answer!" + "</color>"); });
             } else {
-                // If user has selected incorrect answer...
+                // If user has selected incorrect answer, call ...
                 answerButtons[i].onClick.AddListener(delegate { AnswerSelected("<color=red>" + "Incorrect answer!" + "</color>"); });
             }
-        }
-
-        // Make the answer buttons interactable
-        for (int i = 0; i < answerButtons.Count; i++) {
-            answerButtons[i].interactable = true;
         }
     }
 
