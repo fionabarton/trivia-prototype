@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
     [Header("Set in Inspector")]
+    public Text             questionHeaderText;
     public Text             questionText;
     public List<GameObject> answers;
 
@@ -27,13 +29,25 @@ public class GameManager : MonoBehaviour {
         SetQuestions();
     }
 
+    private void Update() {
+        // Switch scenes/color palettes
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            if(SceneManager.GetActiveScene().name == "Blue Palette") {
+                SceneManager.LoadScene("Summer Palette");
+            } else {
+                SceneManager.LoadScene("Blue Palette");
+            }
+        }
+    }
+
     // Set up and display current question/answers
     void SetQuestions() {
         // Get data for current question
         Question q = QuestionManager.S.questions[currentNdx];
 
         // Set question text
-        questionText.text = "Question " + (currentNdx + 1) + "\n" + q.questionString;
+        questionHeaderText.text = "Question " + (currentNdx + 1);
+        questionText.text = "\n" + q.questionString;
 
         // Set answers text
         for (int i = 0; i < answers.Count; i++) {
@@ -54,7 +68,7 @@ public class GameManager : MonoBehaviour {
         for (int i = 0; i < answers.Count; i++) {
             if(i == q.correctAnswerNdx) {
                 // If user has selected correct answer, call ...
-                answerButtons[i].onClick.AddListener(delegate { AnswerSelected("<color=green>" + "Correct answer!" + "</color>"); });
+                answerButtons[i].onClick.AddListener(delegate { AnswerSelected("<color=#00FF00>" + "Correct answer!" + "</color>"); });
             } else {
                 // If user has selected incorrect answer, call ...
                 answerButtons[i].onClick.AddListener(delegate { AnswerSelected("<color=red>" + "Incorrect answer!" + "</color>"); });
@@ -65,7 +79,8 @@ public class GameManager : MonoBehaviour {
     // Called when an answer button is selected by the user
     void AnswerSelected(string messageToDisplay) {
         // Display feedback and info about the question/answer
-        questionText.text = messageToDisplay + "\n" + QuestionManager.S.questions[currentNdx].feedback;
+        questionHeaderText.text = messageToDisplay;
+        questionText.text = QuestionManager.S.questions[currentNdx].feedback;
 
         // Deactivate all but the first answer button
         for (int i = 1; i < answerButtons.Count; i++) {
