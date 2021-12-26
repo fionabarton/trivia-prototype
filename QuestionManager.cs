@@ -31,7 +31,7 @@ public class QuestionManager : MonoBehaviour {
         questions.Add(
             new Question("Which of the following people\nis NOT a member of our team?",
             new List<string> { "Robocop", "Davina", "Siddhant", "Tertius" },
-            "Davina, Daniel, Fiona,Siddhant, and Tertius\nare all members of our team.\nRobocop, however, is a fictional character.",
+            "Davina, Daniel, Fiona, Siddhant, and Tertius\nare all members of our team.\nRobocop, however, is a fictional character.",
             eTopic.other, 0));
 
         questions.Add(
